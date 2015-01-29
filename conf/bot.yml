@@ -1,0 +1,25 @@
+bot:
+  # IRCサーバー名
+  server: 
+  # IRCポート番号
+  port: 6667
+  # IRCボットの名前
+  name: slackbot
+  # IRCに参加するチャンネルリスト
+  channels:
+    - test
+  # ボットの数
+  count: 2
+slack:
+  # slackのIncomingWebHooksのWebHook URL
+  notify_url: 
+  # slackに通知するときの名前
+  notify_username: fromIRC
+aws:
+  # slackのSQSにアクセスするためのキー
+  access_key_id:
+  # slackのSQSにアクセスするためのシークレットキー
+  secret_access_key:
+  # slackのSQSの名前
+  sqs:
+    name: 
