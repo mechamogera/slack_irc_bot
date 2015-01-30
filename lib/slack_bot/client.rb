@@ -12,7 +12,6 @@ module SlackBot
     attr_accessor :not_notify_user_pattern
     attr_accessor :notify_url
     attr_accessor :notify_username
-    attr_reader :nick
   
     def initialize(host, port, opts = [])
       @target_channels = opts[:target_channels]
@@ -39,18 +38,23 @@ module SlackBot
     end
 
     def change_nick(nick)
-      crr_nick = @nick
+      crr_nick = @prefix.nick
       post(NICK, nick)
       timeout(3) do
-        while @nick == crr_nick
+        while @prefix.nick == crr_nick
           sleep 1
         end
       end
     rescue Timeout::Error
     end
 
+    def nick
+      @prefix ? @prefix.nick : ""
+    end
+
     def on_rpl_welcome(m)
-      @first_nick = @nick = m.params[0]
+      super
+      @first_nick = m.params[0]
       @target_channels.each do |channel|
         post(JOIN, channel)
       end
@@ -62,7 +66,9 @@ module SlackBot
     end
 
     def on_nick(m)
-      @nick = m.params[0]
+      if prefix && m.prefix && (m.prefix.split("!")[1] == prefix.split("!")[1])
+        @prefix = Prefix.new([m.params[0], prefix.split("!")[1]].join("!"))
+      end
     end
 
     def on_err_nicknameinuse(m)
