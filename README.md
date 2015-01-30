@@ -1,5 +1,6 @@
 # slack_irc_bot
-slackとIRCを中継するIRCボット
+slackとIRCを以下のように中継するIRCボット
+![slack_irc_bot構成](https://raw.githubusercontent.com/mechamogera/MyTips/master/images/slack_irc_bot/slack_irc_bot.png)
 
 # 使い方
 
