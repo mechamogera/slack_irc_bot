@@ -19,7 +19,8 @@ module SlackBot
         @bots.first.bot.privmsg_callback do |m|
           if @notify_url
             user = m.prefix.split("!")[0]
-            unless @bots.find { |info| info.bot.nick == user }
+            ident = m.prefix.split("!")[1]
+            unless @bots.find { |info| info.bot.prefix.split("!")[1] == ident }
               notifier = Slack::Notifier.new @notify_url
               notifier.ping(":#{user.chomp("_")}: #{m.params[1]}".force_encoding("UTF-8"),
                             username: @notify_username)
